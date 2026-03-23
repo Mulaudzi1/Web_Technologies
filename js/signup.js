@@ -1,5 +1,7 @@
 (function ($) {
   const storageKey = 'richfield-connect-profile';
+  let hasSavedProfile = false;
+  let formLocked = false;
 
   function parseInterests(value) {
     return value
@@ -47,6 +49,10 @@
     $('.error-message').text('');
   }
 
+  function showStatus(message) {
+    $('#profile-status').removeClass('hidden').text(message);
+  }
+
   function validate() {
     clearErrors();
 
@@ -61,6 +67,8 @@
       bio: $('#bio').val().trim(),
     };
 
+    const passwordProvided = values.password.length > 0 || values.confirmPassword.length > 0;
+    const passwordRequired = !hasSavedProfile || passwordProvided;
     let valid = true;
 
     if (values.fullName.length < 3) {
@@ -83,12 +91,12 @@
       valid = false;
     }
 
-    if (values.password.length < 8) {
+    if (passwordRequired && values.password.length < 8) {
       setError('password', 'Password must be at least 8 characters.');
       valid = false;
     }
 
-    if (values.confirmPassword !== values.password) {
+    if (passwordRequired && values.confirmPassword !== values.password) {
       setError('confirmPassword', 'Passwords do not match.');
       valid = false;
     }
@@ -106,6 +114,41 @@
     return valid ? values : null;
   }
 
+  function setFormLocked(locked, message) {
+    formLocked = locked;
+
+    $('#signup-form')
+      .find('input, textarea, select')
+      .prop('disabled', locked)
+      .closest('.field-group')
+      .toggleClass('is-locked', locked);
+
+    $('#save-profile-button').toggleClass('hidden', locked);
+    $('#edit-profile-button').toggleClass('hidden', !locked);
+    $('#view-profile-button').toggleClass('hidden', !hasSavedProfile);
+    $('#profile-lock-indicator').toggleClass('hidden', !locked).text(locked ? 'Locked' : 'Editing');
+
+    if (locked) {
+      showStatus(message || 'Profile saved. Fields are greyed out until you click Edit Profile.');
+      $('#password').val('');
+      $('#confirmPassword').val('');
+    } else if (message) {
+      showStatus(message);
+    }
+  }
+
+  function fillForm(profile) {
+    $('#fullName').val(profile.fullName || '');
+    $('#studentNumber').val(profile.studentNumber || '');
+    $('#campus').val(profile.campus || '');
+    $('#email').val(profile.email || '');
+    $('#interests').val((profile.interests || []).join(', '));
+    $('#bio').val(profile.bio || '');
+    $('#password').val('');
+    $('#confirmPassword').val('');
+    renderPreview();
+  }
+
   $(function () {
     $('#signup-form input, #signup-form textarea, #signup-form select').on('input change', renderPreview);
     renderPreview();
@@ -113,17 +156,26 @@
     const savedProfile = localStorage.getItem(storageKey);
     if (savedProfile) {
       const profile = JSON.parse(savedProfile);
-      $('#fullName').val(profile.fullName || '');
-      $('#studentNumber').val(profile.studentNumber || '');
-      $('#campus').val(profile.campus || '');
-      $('#email').val(profile.email || '');
-      $('#interests').val((profile.interests || []).join(', '));
-      $('#bio').val(profile.bio || '');
-      renderPreview();
+      hasSavedProfile = true;
+      fillForm(profile);
+      setFormLocked(true, 'Saved profile loaded. Click Edit Profile to unlock the form.');
+    } else {
+      $('#view-profile-button').addClass('hidden');
     }
+
+    $('#edit-profile-button').on('click', function () {
+      setFormLocked(false, 'Editing enabled. Update your details and save again when you are ready.');
+      $('#profile-lock-indicator').removeClass('hidden').text('Editing');
+      $('#fullName').trigger('focus');
+    });
 
     $('#signup-form').on('submit', function (event) {
       event.preventDefault();
+
+      if (formLocked) {
+        return;
+      }
+
       const values = validate();
       if (!values) {
         return;
@@ -138,11 +190,14 @@
           email: values.email,
           interests: parseInterests(values.interests),
           bio: values.bio,
+          hasPassword: true,
           updatedAt: new Date().toISOString(),
         })
       );
 
-      window.location.href = 'profile.html';
+      hasSavedProfile = true;
+      setFormLocked(true, 'Profile saved successfully. Fields are now greyed out until you click Edit Profile.');
+      renderPreview();
     });
   });
 })(jQuery);

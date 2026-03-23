@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
@@ -30,34 +30,80 @@
     </header>
 
     <main class="page-section">
-      <div class="container feed-layout">
-        <section class="card post-composer">
-          <div class="section-heading">
-            <span class="eyebrow">Share an update</span>
-            <h1>Student feed</h1>
+      <div class="container feed-page-shell">
+        <section class="feed-hero card">
+          <div>
+            <span class="eyebrow">Campus conversations</span>
+            <h1>Beautiful, student-friendly opportunity feed</h1>
+            <p>
+              Share jobs, celebrate wins, react with emojis, and help classmates with comments that
+              make every post feel alive.
+            </p>
           </div>
-          <div id="feed-user-message" class="info-banner hidden"></div>
-          <form id="post-form" novalidate>
-            <label for="postContent">What would you like to share?</label>
-            <textarea id="postContent" rows="5" placeholder="Post a campus update, win, or idea..."></textarea>
-            <small class="error-message" id="post-error"></small>
-            <button type="submit" class="button primary-button">Post</button>
-          </form>
+          <div class="feed-hero-stats" aria-label="Feed highlights">
+            <div class="stat-pill">
+              <strong id="hero-post-count">0</strong>
+              <span>Posts</span>
+            </div>
+            <div class="stat-pill">
+              <strong id="hero-comment-count">0</strong>
+              <span>Comments</span>
+            </div>
+            <div class="stat-pill">
+              <strong id="hero-reaction-count">0</strong>
+              <span>Reactions</span>
+            </div>
+          </div>
         </section>
 
-        <section class="feed-stream">
-          <div id="feed-empty-state" class="card empty-state hidden">
-            <h2>No posts yet</h2>
-            <p>Your Richfield Connect posts will appear here after you publish one.</p>
-          </div>
-          <div id="post-list" class="post-list"></div>
-        </section>
+        <div class="feed-layout enhanced-feed-layout">
+          <section class="card post-composer">
+            <div class="section-heading stacked-heading">
+              <div>
+                <span class="eyebrow">Share an update</span>
+                <h2>Post to the student feed</h2>
+              </div>
+              <span class="tag composer-tip">Tip: ask a question to invite comments.</span>
+            </div>
+            <div id="feed-user-message" class="info-banner hidden"></div>
+            <form id="post-form" novalidate>
+              <label for="postContent">What would you like to share?</label>
+              <textarea
+                id="postContent"
+                rows="5"
+                placeholder="Post a job lead, class tip, campus announcement, or quick win..."
+              ></textarea>
+              <small class="helper-text">Posts feel more engaging when you include a question or call to action.</small>
+              <small class="error-message" id="post-error"></small>
+              <button type="submit" class="button primary-button">Publish Post</button>
+            </form>
+          </section>
+
+          <aside class="card feed-sidebar">
+            <span class="eyebrow">Why this feels better</span>
+            <h2>Designed for student interaction</h2>
+            <ul class="feature-list compact-list">
+              <li>Emoji reactions make feedback faster than likes alone.</li>
+              <li>Comment threads help students answer questions publicly.</li>
+              <li>Cleaner spacing and stronger hierarchy improve readability.</li>
+              <li>Each card highlights engagement at a glance.</li>
+            </ul>
+          </aside>
+
+          <section class="feed-stream full-span">
+            <div id="feed-empty-state" class="card empty-state hidden">
+              <h2>No posts yet</h2>
+              <p>Your Richfield Connect posts will appear here after you publish one.</p>
+            </div>
+            <div id="post-list" class="post-list"></div>
+          </section>
+        </div>
       </div>
     </main>
 
     <footer class="site-footer">
       <div class="container">
-        <p>Post creation, likes, and deletions are persisted in browser localStorage.</p>
+        <p>Posts, comments, reactions, and profile details are stored in browser localStorage.</p>
       </div>
     </footer>
 

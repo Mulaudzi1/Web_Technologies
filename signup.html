@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
@@ -30,13 +30,18 @@
     </header>
 
     <main class="page-section">
-      <div class="container split-layout">
+      <div class="container split-layout signup-layout">
         <section class="card form-card">
-          <div class="section-heading">
-            <span class="eyebrow">Student registration</span>
-            <h1>Create your Richfield Connect profile</h1>
-            <p>Complete every field to start building your campus identity.</p>
+          <div class="section-heading stacked-heading">
+            <div>
+              <span class="eyebrow">Student registration</span>
+              <h1>Create your Richfield Connect profile</h1>
+              <p>Complete every field to start building your campus identity.</p>
+            </div>
+            <span id="profile-lock-indicator" class="tag muted hidden">Locked</span>
           </div>
+
+          <div id="profile-status" class="info-banner hidden"></div>
 
           <form id="signup-form" novalidate>
             <div class="form-grid">
@@ -71,13 +76,14 @@
                 <small class="error-message" id="email-error"></small>
               </div>
 
-              <div class="field-group">
+              <div class="field-group" id="password-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" />
+                <small class="helper-text">Use 8+ characters for your first save or when changing it.</small>
                 <small class="error-message" id="password-error"></small>
               </div>
 
-              <div class="field-group">
+              <div class="field-group" id="confirm-password-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" />
                 <small class="error-message" id="confirmPassword-error"></small>
@@ -101,14 +107,21 @@
               </div>
             </div>
 
-            <button type="submit" class="button primary-button">Save Profile</button>
+            <div class="form-actions">
+              <button type="submit" id="save-profile-button" class="button primary-button">Save Profile</button>
+              <button type="button" id="edit-profile-button" class="button secondary-button hidden">Edit Profile</button>
+              <a href="profile.html" id="view-profile-button" class="button tertiary-button hidden">View Profile</a>
+            </div>
           </form>
         </section>
 
         <aside class="card preview-card" id="profile-preview">
-          <div class="section-heading">
-            <span class="eyebrow">Live preview</span>
-            <h2>Your profile card</h2>
+          <div class="section-heading stacked-heading">
+            <div>
+              <span class="eyebrow">Live preview</span>
+              <h2>Your profile card</h2>
+            </div>
+            <span class="tag preview-badge">Polished profile</span>
           </div>
           <div class="preview-avatar">RC</div>
           <h3 id="preview-name">Your Name</h3>
@@ -123,7 +136,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>Register once and your details will be stored in your browser using localStorage.</p>
+        <p>Save once, review a locked profile, then click Edit Profile whenever you want to make changes.</p>
       </div>
     </footer>
 
