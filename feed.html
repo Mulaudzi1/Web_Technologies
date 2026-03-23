@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Richfield Connect | Feed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body data-page="feed">
+    <header class="site-header">
+      <nav class="navbar container" aria-label="Primary navigation">
+        <a class="brand" href="index.html">Richfield Connect</a>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+          ☰
+        </button>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="signup.html" class="nav-link">Sign Up</a>
+          <a href="profile.html" class="nav-link">Profile</a>
+          <a href="feed.html" class="nav-link active">Feed</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page-section">
+      <div class="container feed-layout">
+        <section class="card post-composer">
+          <div class="section-heading">
+            <span class="eyebrow">Share an update</span>
+            <h1>Student feed</h1>
+          </div>
+          <div id="feed-user-message" class="info-banner hidden"></div>
+          <form id="post-form" novalidate>
+            <label for="postContent">What would you like to share?</label>
+            <textarea id="postContent" rows="5" placeholder="Post a campus update, win, or idea..."></textarea>
+            <small class="error-message" id="post-error"></small>
+            <button type="submit" class="button primary-button">Post</button>
+          </form>
+        </section>
+
+        <section class="feed-stream">
+          <div id="feed-empty-state" class="card empty-state hidden">
+            <h2>No posts yet</h2>
+            <p>Your Richfield Connect posts will appear here after you publish one.</p>
+          </div>
+          <div id="post-list" class="post-list"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Post creation, likes, and deletions are persisted in browser localStorage.</p>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/feed.js"></script>
+  </body>
+</html>
